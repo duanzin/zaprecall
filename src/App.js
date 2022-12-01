@@ -4,23 +4,27 @@ import styled from "styled-components";
 import logo from "./assets/img/logo.png";
 import Deck from "./Deck";
 import Contador from "./Contador";
+import cards from "./cards";
 
 function App() {
+  const numcards = cards.length;
+  const [cardrespondido, setcardrespondido] = React.useState(0);
+
   return (
     <>
       <GlobalStyle />
-      <Main>
+      <Container>
         <Header>
-          <img src={logo} /> <h1>ZapRecall</h1>
+          <img src={logo} alt="logo"/> <h1>ZapRecall</h1>
         </Header>
-        <Deck />
-        <Contador />
-      </Main>
+        <Deck cards={cards} setcardrespondido={setcardrespondido} />
+        <Contador numcards={numcards} cardrespondido={cardrespondido} />
+      </Container>
     </>
   );
 }
 
-const Main = styled.div`
+const Container = styled.div`
   background-color: #fb6b6b;
   width: 100vw;
   min-height: 100vh;
@@ -40,7 +44,7 @@ const Header = styled.div`
     width: 52px;
   }
   h1 {
-    font-family: "Righteous";
+    font-family: "Righteous", cursive;
     font-style: normal;
     font-weight: 400;
     font-size: 36px;
