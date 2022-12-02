@@ -11,6 +11,7 @@ export default function Deck(props) {
           pergunta={card.question}
           resposta={card.answer}
           cardid={card.id}
+          cardrespondido={props.cardrespondido}
           setcardrespondido={props.setcardrespondido}
         />
       ))}

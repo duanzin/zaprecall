@@ -2,16 +2,31 @@ import React from "react";
 import styled from "styled-components";
 import seta from "./assets/img/seta_play.png";
 import vira from "./assets/img/seta_virar.png";
+import certo from "./assets/img/icone_certo.png";
+import erro from "./assets/img/icone_erro.png";
+import quase from "./assets/img/icone_quase.png";
 
 export default function Flashcard(props) {
   const [cardstate, setcardstate] = React.useState("fechado");
+  const [imagem, setimagem] = React.useState(seta);
+  const [decoration, setdecoration] = React.useState("none");
+  const [cor, setcor] = React.useState("#333333");
+  const [desativar, setdesativar] = React.useState(false);
+
+  function respondeu() {
+    setcardstate("fechado");
+    setdecoration("line-through");
+    props.setcardrespondido(props.cardrespondido + 1);
+    setdesativar(true);
+  }
+
   switch (cardstate) {
     case "pergunta":
-      console.log(cardstate);
       return (
-        <LiAberto>
+        <LiAberto data-test="flashcard">
           {props.pergunta}
           <img
+            data-test="turn-btn"
             src={vira}
             alt="seta vira"
             onClick={() => setcardstate("resposta")}
@@ -20,28 +35,55 @@ export default function Flashcard(props) {
       );
 
     case "resposta":
-      console.log(cardstate);
       return (
-        <LiAberto>
+        <LiAberto data-test="flashcard">
           {props.resposta}
           <Botoes>
-            <button>Não lembrei</button>
-            <button>Quase não lembrei</button>
-            <button>Zap!</button>
+            <button
+              data-test="no-btn"
+              onClick={() => {
+                setcor("#FF3030");
+                setimagem(erro);
+                respondeu();
+              }}
+            >
+              Não lembrei
+            </button>
+            <button
+              data-test="partial-btn"
+              onClick={() => {
+                setcor("#FF922E");
+                setimagem(quase);
+                respondeu();
+              }}
+            >
+              Quase não lembrei
+            </button>
+            <button
+              data-test="zap-btn"
+              onClick={() => {
+                setcor("#2FBE34");
+                setimagem(certo);
+                respondeu();
+              }}
+            >
+              Zap!
+            </button>
           </Botoes>
         </LiAberto>
       );
 
     default:
-      console.log(cardstate);
       return (
-        <LiFechado>
-          <p>Pergunta {props.cardid}</p>
-          <img
-            src={seta}
-            alt="seta play"
+        <LiFechado cor={cor} decoration={decoration} data-test="flashcard">
+          <p data-test="flashcard-text">Pergunta {props.cardid}</p>
+          <button
+            data-test="play-btn"
+            disabled={desativar}
             onClick={() => setcardstate("pergunta")}
-          />
+          >
+            <img src={imagem} alt="" />
+          </button>
         </LiFechado>
       );
   }
@@ -63,7 +105,11 @@ const LiFechado = styled.li`
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    color: #333333;
+    color: ${(props) => props.cor};
+    text-decoration-line: ${(props) => props.decoration};
+  }
+  button {
+    all: unset;
   }
 `;
 
@@ -111,13 +157,13 @@ const Botoes = styled.div`
     border: 0;
     padding: 6px;
   }
-  button:first-child{
-    background: #FF3030;
+  button:first-child {
+    background: #ff3030;
   }
-  button:nth-child(2){
-    background: #FF922E;
+  button:nth-child(2) {
+    background: #ff922e;
   }
-  button:last-child{
-    background: #2FBE34;
+  button:last-child {
+    background: #2fbe34;
   }
 `;

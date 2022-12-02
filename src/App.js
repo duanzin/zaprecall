@@ -15,9 +15,13 @@ function App() {
       <GlobalStyle />
       <Container>
         <Header>
-          <img src={logo} alt="logo"/> <h1>ZapRecall</h1>
+          <img src={logo} alt="logo" /> <h1>ZapRecall</h1>
         </Header>
-        <Deck cards={cards} setcardrespondido={setcardrespondido} />
+        <Deck
+          cards={cards}
+          cardrespondido={cardrespondido}
+          setcardrespondido={setcardrespondido}
+        />
         <Contador numcards={numcards} cardrespondido={cardrespondido} />
       </Container>
     </>

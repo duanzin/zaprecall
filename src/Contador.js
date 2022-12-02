@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export default function Contador(props) {
   return (
-    <Footer>
+    <Footer data-test="footer">
       {props.cardrespondido}/{props.numcards} CONCLUÍDOS
     </Footer>
   );
