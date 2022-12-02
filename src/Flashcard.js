@@ -12,6 +12,7 @@ export default function Flashcard(props) {
   const [decoration, setdecoration] = React.useState("none");
   const [cor, setcor] = React.useState("#333333");
   const [desativar, setdesativar] = React.useState(false);
+  const [teste, setteste] = React.useState("");
 
   function respondeu() {
     setcardstate("fechado");
@@ -24,7 +25,7 @@ export default function Flashcard(props) {
     case "pergunta":
       return (
         <LiAberto data-test="flashcard">
-          {props.pergunta}
+          <p data-test="flashcard-text">{props.pergunta}</p>
           <img
             data-test="turn-btn"
             src={vira}
@@ -37,13 +38,14 @@ export default function Flashcard(props) {
     case "resposta":
       return (
         <LiAberto data-test="flashcard">
-          {props.resposta}
+          <p data-test="flashcard-text">{props.resposta}</p>
           <Botoes>
             <button
               data-test="no-btn"
               onClick={() => {
                 setcor("#FF3030");
                 setimagem(erro);
+                setteste("no-icon");
                 respondeu();
               }}
             >
@@ -54,6 +56,7 @@ export default function Flashcard(props) {
               onClick={() => {
                 setcor("#FF922E");
                 setimagem(quase);
+                setteste("partial-icon");
                 respondeu();
               }}
             >
@@ -64,6 +67,7 @@ export default function Flashcard(props) {
               onClick={() => {
                 setcor("#2FBE34");
                 setimagem(certo);
+                setteste("zap-icon");
                 respondeu();
               }}
             >
@@ -82,7 +86,7 @@ export default function Flashcard(props) {
             disabled={desativar}
             onClick={() => setcardstate("pergunta")}
           >
-            <img src={imagem} alt="" />
+            <img data-test={teste} src={imagem} alt="" />
           </button>
         </LiFechado>
       );
