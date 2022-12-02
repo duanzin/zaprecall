@@ -7,8 +7,10 @@ export default function Deck(props) {
     <Main>
       {props.cards.map((card) => (
         <Flashcard
+          key={card.id}
           pergunta={card.question}
           resposta={card.answer}
+          cardid={card.id}
           setcardrespondido={props.setcardrespondido}
         />
       ))}
